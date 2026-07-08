@@ -31,11 +31,11 @@
     <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
             <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">MOON COMPANY</span>
-            <span class="bg-indigo-600 text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-widest text-white">POS Sincronizado</span>
+            <span class="bg-indigo-600 text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-widest text-white">POS REAL-TIME</span>
         </div>
-        <div class="bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 font-mono text-emerald-400 flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            Nube POS Conectada
+        <div id="connection-status" class="bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 font-mono text-amber-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            Conectando a Google Sheets...
         </div>
     </header>
 
@@ -58,33 +58,33 @@
                 <div class="bg-slate-900/40 p-6 rounded-2xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h2 class="text-2xl font-bold">Moon Quantum Pro X</h2>
-                            <p class="text-slate-400 text-sm mt-1">Dispositivo bandera + Kit de accesorios premium</p>
+                            <h2 class="text-2xl font-bold" id="product-title">Cargando producto...</h2>
+                            <p class="text-slate-400 text-sm mt-1">Dispositivo tecnológico controlado desde la nube</p>
                         </div>
-                        <p class="text-2xl font-black text-indigo-400" id="product-price">$1199.00</p>
+                        <p class="text-2xl font-black text-indigo-400" id="product-price">$0.00</p>
                     </div>
                     
                     <div class="grid grid-cols-3 gap-4 text-center">
                         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">STOCK ACTUAL</p>
-                            <p class="text-lg font-bold text-slate-200" id="stock-display">10</p>
+                            <p class="text-xs text-slate-500 font-mono">STOCK EN EXCEL</p>
+                            <p class="text-lg font-bold text-slate-200" id="stock-display">--</p>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">TIENDA FÍSICA</p>
-                            <p class="text-sm font-semibold text-cyan-400">Pasillo A-3</p>
+                            <p class="text-xs text-slate-500 font-mono">UBICACIÓN</p>
+                            <p class="text-sm font-semibold text-cyan-400">Almacén Central</p>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">CANAL ONLINE</p>
-                            <p class="text-sm font-semibold text-purple-400">Habilitado</p>
+                            <p class="text-xs text-slate-500 font-mono">SINK OMNICANAL</p>
+                            <p class="text-sm font-semibold text-purple-400">Google API</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <button onclick="agregarAlPOS('Tienda Física')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-indigo-600/20 text-sm">
-                            💻 Registrar en POS (Tienda)
+                        <button onclick="registrarVentaEnNube('Tienda Física')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-indigo-600/20 text-sm">
+                            💻 Procesar en POS (Tienda)
                         </button>
-                        <button onclick="agregarAlPOS('E-Commerce Online')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl border border-slate-700 transition-all text-sm">
-                            🌐 Añadir a Pedido Web
+                        <button onclick="registrarVentaEnNube('E-Commerce Online')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl border border-slate-700 transition-all text-sm">
+                            🌐 Simular Pedido Web Online
                         </button>
                     </div>
                 </div>
@@ -92,12 +92,12 @@
 
             <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-fit space-y-6">
                 <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold tracking-wide text-slate-200">Terminal Omnicanal</h3>
-                    <p class="text-xs text-slate-500 font-mono mt-1">ID CAJA: #001-MOON</p>
+                    <h3 class="text-lg font-bold tracking-wide text-slate-200">Facturación Moon POS</h3>
+                    <p class="text-xs text-slate-500 font-mono mt-1">ID CAJA: #001-SHEETS</p>
                 </div>
 
                 <div class="space-y-4 min-h-[150px]" id="cart-items">
-                    <p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">No hay ventas activas en el mostrador.</p>
+                    <p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">Esperando transacción...</p>
                 </div>
 
                 <div class="border-t border-slate-800 pt-4 space-y-2 text-sm font-mono">
@@ -115,8 +115,8 @@
                     </div>
                 </div>
 
-                <button onclick="procesarPago()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-center text-sm tracking-wide">
-                    💵 Completar Venta e Imprimir Ticket
+                <button onclick="confirmarTicket()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-center text-sm tracking-wide">
+                    🖨️ Confirmar e Imprimir Recibo
                 </button>
             </div>
 
@@ -124,68 +124,110 @@
     </main>
 
     <script>
-        // Simulamos los datos centralizados del inventario
-        let stockCentral = 10;
-        let precioProducto = 1199.00;
-        let cantidadEnCarrito = 0;
-        let origenVenta = "";
+        // Tu URL de Google Apps Script de confianza
+        const API_URL = "https://script.google.com/macros/s/AKfycbyDLInQ1Ok2ZJchNJt-Y7bGfXS980Y0nUriT_p5_kPwjHgPyBffInAV2BdY5yFd_jVZ/exec";
+        
+        let productoPrecio = 0;
+        let productoNombre = "";
+        let ventaActiva = false;
+        let canalActual = "";
 
-        function agregarAlPOS(canal) {
-            if (stockCentral > 0) {
-                stockCentral--;
-                cantidadEnCarrito++;
-                origenVenta = canal;
-                
-                // Actualizar la pantalla del inventario
-                document.getElementById('stock-display').innerText = stockCentral;
-                
-                // Renderizar el producto dentro de la caja registradora
-                document.getElementById('empty-cart-msg').classList.add('hidden');
-                document.getElementById('cart-items').innerHTML = `
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 relative">
-                        <span class="absolute top-2 right-2 text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
-                            ${origenVenta}
-                        </span>
-                        <p class="font-bold text-sm text-slate-200">Moon Quantum Pro X</p>
-                        <div class="flex justify-between items-center mt-3 text-xs">
-                            <p class="text-slate-400">Cant: <span class="text-white font-bold">${cantidadEnCarrito}</span></p>
-                            <p class="text-indigo-400 font-bold">$${(precioProducto * cantidadEnCarrito).toFixed(2)}</p>
-                        </div>
-                    </div>
-                `;
+        // Al cargar la página, traemos los datos reales del Excel
+        window.addEventListener('load', () => {
+            cargarInventarioDesdeNube();
+        });
 
-                // Calcular las finanzas en tiempo real
-                calcularFinanzas();
-            } else {
-                alert("❌ ¡ALERTA OMNICANAL! Stock agotado en los servidores de Moon Company. No es posible vender por ningún canal.");
+        function cargarInventarioDesdeNube() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === "success") {
+                        productoPrecio = data.precio;
+                        productoNombre = data.producto;
+                        
+                        document.getElementById('product-title').innerText = data.producto;
+                        document.getElementById('product-price').innerText = `$${data.precio.toFixed(2)}`;
+                        document.getElementById('stock-display').innerText = data.stock;
+                        
+                        // Actualizar indicador de conexión arriba
+                        const status = document.getElementById('connection-status');
+                        status.className = "bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 font-mono text-emerald-400 flex items-center gap-2";
+                        status.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Sincronizado con Excel`;
+                    }
+                })
+                .catch(err => {
+                    console.error("Error conectando a la API:", err);
+                    document.getElementById('connection-status').innerText = "❌ Error de conexión con la Nube";
+                });
+        }
+
+        function registrarVentaEnNube(canal) {
+            const stockActual = parseInt(document.getElementById('stock-display').innerText);
+            
+            if (stockActual <= 0) {
+                alert("❌ ¡ALERTA OMNICANAL! Stock agotado en Google Sheets. Venta bloqueada.");
+                return;
             }
+
+            // Cambiar estado visual para avisar que se está guardando en internet
+            document.getElementById('connection-status').innerText = "⏳ Guardando en Google Sheets...";
+            canalActual = canal;
+
+            // Enviamos el parámetro "action=vender" a tu Google Script
+            fetch(`${API_URL}?action=vender`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === "success") {
+                        // Actualizamos la pantalla con lo que nos devolvió el Excel real
+                        document.getElementById('stock-display').innerText = data.stock;
+                        
+                        // Mostramos el artículo en la caja del POS
+                        ventaActiva = true;
+                        document.getElementById('empty-cart-msg').classList.add('hidden');
+                        document.getElementById('cart-items').innerHTML = `
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 relative">
+                                <span class="absolute top-2 right-2 text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                                    ${canalActual}
+                                </span>
+                                <p class="font-bold text-sm text-slate-200">${productoNombre}</p>
+                                <div class="flex justify-between items-center mt-3 text-xs">
+                                    <p class="text-slate-400">Cant: <span class="text-white font-bold">1</span></p>
+                                    <p class="text-indigo-400 font-bold">$${productoPrecio.toFixed(2)}</p>
+                                </div>
+                            </div>
+                        `;
+
+                        // Calcular cuentas financieras
+                        let subtotal = productoPrecio;
+                        let iva = subtotal * 0.16;
+                        let total = subtotal + iva;
+
+                        document.getElementById('subtotal-val').innerText = `$${subtotal.toFixed(2)}`;
+                        document.getElementById('tax-val').innerText = `$${iva.toFixed(2)}`;
+                        document.getElementById('total-val').innerText = `$${total.toFixed(2)}`;
+                        
+                        // Restaurar texto de éxito arriba
+                        cargarInventarioDesdeNube();
+                    } else {
+                        alert("❌ Error: " + data.message);
+                        cargarInventarioDesdeNube();
+                    }
+                });
         }
 
-        function calcularFinanzas() {
-            let subtotal = precioProducto * cantidadEnCarrito;
-            let impuesto = subtotal * 0.16;
-            let total = subtotal + impuesto;
-
-            document.getElementById('subtotal-val').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('tax-val').innerText = `$${impuesto.toFixed(2)}`;
-            document.getElementById('total-val').innerText = `$${total.toFixed(2)}`;
-        }
-
-        function procesarPago() {
-            if (cantidadEnCarrito > 0) {
-                alert(`🎉 ¡Venta Exitosa!\n\nCanal: ${origenVenta}\nTotal Cobrado: ${document.getElementById('total-val').innerText}\n\nEl stock web y físico ha sido actualizado en la base de datos central de Moon Company.`);
-                
-                // Reiniciar carrito para la siguiente venta
-                cantidadEnCarrito = 0;
-                document.getElementById('cart-items').innerHTML = `<p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">No hay ventas activas en el mostrador.</p>`;
+        function confirmarTicket() {
+            if (ventaActiva) {
+                alert(`🎉 Transacción Procesada con Éxito.\n\nCanal: ${canalActual}\n\nLos cambios ya están asentados de forma permanente en tu Google Sheets.`);
+                // Limpiar terminal
+                ventaActiva = false;
+                document.getElementById('cart-items').innerHTML = `<p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">Esperando transacción...</p>`;
                 document.getElementById('subtotal-val').innerText = "$0.00";
                 document.getElementById('tax-val').innerText = "$0.00";
                 document.getElementById('total-val').innerText = "$0.00";
             } else {
-                alert("El mostrador está vacío. Añade un producto usando los botones del Catálogo 3D.");
+                alert("Primero haz clic en un botón de venta para descontar del inventario.");
             }
         }
     </script>
-
 </body>
 </html>
