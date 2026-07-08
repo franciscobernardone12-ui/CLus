@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moon Company | Premium Tech POS</title>
-    <!-- Cargamos Tailwind CSS desde la nube para el diseño moderno y rápido -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
     <style>
-        /* Creamos la textura tecnológica usando un degradado oscuro que simula el espacio y la tecnología premium */
         body {
             background-color: #0b0f19;
             background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0b0f19 80%);
         }
-        /* Efecto de brillo neón para las tarjetas de productos */
         .neon-border {
             box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
             transition: all 0.3s ease;
@@ -20,91 +20,90 @@
         .neon-border:hover {
             box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
         }
+        /* Estilos personalizados para que el visor 3D ocupe todo su contenedor */
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
     </style>
 </head>
-<body class="text-white font-sans min-height-screen">
+<body class="text-white font-sans min-h-screen">
 
-    <!-- BARRA DE NAVEGACIÓN SUPERIOR (El mostrador de la tienda) -->
     <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
-            <!-- Logo de Moon Company -->
             <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">MOON COMPANY</span>
             <span class="bg-indigo-600 text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-widest text-white">POS & Omnichannel</span>
         </div>
         <nav class="hidden md:flex space-x-8 text-sm font-medium tracking-wide text-slate-300">
-            <a href="#" class="hover:text-indigo-400 transition-colors">Catálogo 3D</a>
+            <a href="#" class="text-indigo-400 border-b border-indigo-400 pb-1">Catálogo 3D</a>
             <a href="#" class="hover:text-indigo-400 transition-colors">Terminal POS</a>
             <a href="#" class="hover:text-indigo-400 transition-colors">Inventario</a>
         </nav>
         <div>
-            <!-- Indicador del estado del carrito de ventas -->
             <button class="bg-indigo-600 hover:bg-indigo-500 font-semibold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-indigo-600/30">
                 Ver Carrito (0)
             </button>
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-6 py-12">
-        <!-- Encabezado de la sección -->
         <div class="text-center mb-16">
             <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
                 Experiencia de Comercio <span class="bg-gradient-to-r from-purple-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Inmersivo</span>
             </h1>
             <p class="text-slate-400 max-w-2xl mx-auto text-lg">
-                Explora hardware de alta gama en tiempo real. Diseñado para la velocidad del retail moderno de Moon Company.
+                Interactúa con el hardware de Moon Company en tiempo real antes de procesar la venta en el POS.
             </p>
         </div>
 
-        <!-- SECCIÓN DE PRODUCTO CON ESPACIO PARA VISOR 3D -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            <!-- Contenedor Izquierdo: Aquí irá el Visor 3D en el siguiente paso -->
-            <div class="neon-border bg-slate-900/60 border border-indigo-500/30 rounded-3xl h-[450px] flex flex-col items-center justify-center relative overflow-hidden group p-6">
-                <!-- Simulación de fondo tecnológico -->
-                <div class="absolute inset-0 bg-[radial-gradient(#312e81_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
+            <div class="neon-border bg-slate-900/60 border border-indigo-500/30 rounded-3xl h-[450px] flex items-center justify-center relative overflow-hidden p-2">
+                <div class="absolute inset-0 bg-[radial-gradient(#312e81_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
                 
-                <div class="text-center z-10">
-                    <div class="w-16 h-16 bg-indigo-600/20 border border-indigo-500/50 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-                        </svg>
+                <model-viewer 
+                    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                    alt="Modelo 3D Interactivo de Moon Company"
+                    camera-controls 
+                    auto-rotate 
+                    shadow-intensity="1.5"
+                    exposure="1.2"
+                    environment-image="neutral">
+                    
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full border border-slate-700 pointer-events-none text-slate-400 font-mono">
+                        🖱️ Arrastra para rotar | Scroll para zoom
                     </div>
-                    <p class="text-xl font-semibold text-slate-200">Área del Catálogo Inmersivo 3D</p>
-                    <p class="text-xs text-indigo-400 mt-2 tracking-widest uppercase font-mono">[ El renderizado del celular se cargará aquí ]</p>
-                </div>
+                </model-viewer>
             </div>
 
-            <!-- Contenedor Derecho: Detalles del Producto y Acciones del POS -->
             <div class="space-y-6">
                 <span class="text-xs font-bold uppercase tracking-widest text-cyan-400 px-3 py-1 bg-cyan-400/10 rounded-md border border-cyan-400/20">
-                    Nuevo Ingreso
+                    Dispositivo Demo 3D
                 </span>
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Smartphone Quantum Pro X</h2>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Moon Quantum Pro X</h2>
                 <p class="text-2xl font-semibold text-indigo-400">$1,199 USD</p>
                 
                 <p class="text-slate-400 leading-relaxed">
-                    Experimenta el dispositivo bandera de la nueva generación. Equipado con arquitectura de procesamiento neuronal, pantalla holográfica y un sistema de cámaras optimizado para captura espacial. 
+                    Nuestra interfaz inmersiva permite a tus asesores en tienda física o a tus clientes web examinar cada detalle del dispositivo. Menos devoluciones, más conversión de venta.
                 </p>
 
-                <!-- Detalles técnicos rápidos -->
                 <div class="grid grid-cols-2 gap-4 pt-2">
                     <div class="bg-slate-900/40 p-3 rounded-xl border border-slate-800">
-                        <p class="text-xs text-slate-500 font-mono">PROCESADOR</p>
-                        <p class="text-sm font-semibold text-slate-300">Bio-Chip 5nm</p>
+                        <p class="text-xs text-slate-500 font-mono">ESTADO DEL POS</p>
+                        <p class="text-sm font-semibold text-emerald-400">● Conectado / En Línea</p>
                     </div>
                     <div class="bg-slate-900/40 p-3 rounded-xl border border-slate-800">
-                        <p class="text-xs text-slate-500 font-mono">CÁMARA</p>
-                        <p class="text-sm font-semibold text-slate-300">200 MP Ultra-Vision</p>
+                        <p class="text-xs text-slate-500 font-mono">STOCK CENTRAL</p>
+                        <p class="text-sm font-semibold text-slate-300">42 Unidades disponible</p>
                     </div>
                 </div>
 
-                <!-- Botones de Acción Comercial (Omnicanal) -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <button class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-4 px-6 rounded-xl transition-all transform active:scale-95 shadow-lg shadow-indigo-600/20 text-center">
+                    <button onclick="alert('POS: Producto agregado a la venta de mostrador (Tienda Física)')" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-4 px-6 rounded-xl transition-all transform active:scale-95 shadow-lg shadow-indigo-600/20 text-center">
                         Vender en Tienda (POS)
                     </button>
-                    <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-6 rounded-xl border border-slate-700 transition-all text-center">
+                    <button onclick="alert('E-Commerce: Producto añadido al carrito web')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-6 rounded-xl border border-slate-700 transition-all text-center">
                         Agregar a Pedido Web
                     </button>
                 </div>
