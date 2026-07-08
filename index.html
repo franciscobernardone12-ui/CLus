@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Company | Premium Tech POS</title>
+    <title>Moon Company | Catálogo Dinámico 3D</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
     <style>
         body {
             background-color: #0b0f19;
@@ -14,10 +13,6 @@
         }
         .neon-border {
             box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-            transition: all 0.3s ease;
-        }
-        .neon-border:hover {
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
         }
         model-viewer {
             width: 100%;
@@ -31,92 +26,79 @@
     <header class="border-b border-indigo-900 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
             <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">MOON COMPANY</span>
-            <span class="bg-indigo-600 text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-widest text-white">POS REAL-TIME</span>
+            <span class="bg-indigo-600 text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-widest text-white">Catálogo 3D Omnicanal</span>
         </div>
         <div id="connection-status" class="bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 font-mono text-amber-400 flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-            Conectando a Google Sheets...
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Sincronizando Nube...
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
+            <div class="lg:col-span-1 space-y-4">
+                <h3 class="text-sm font-bold tracking-widest uppercase text-slate-400 mb-2 px-1">📱 Dispositivos en Red</h3>
+                <div id="lista-productos" class="space-y-3">
+                    <p class="text-xs text-slate-500 p-4 bg-slate-900/50 rounded-xl border border-slate-800 animate-pulse">Cargando inventario...</p>
+                </div>
+            </div>
+
             <div class="lg:col-span-2 space-y-6">
-                <div class="neon-border bg-slate-900/60 border border-indigo-500/30 rounded-3xl h-[400px] flex items-center justify-center relative overflow-hidden p-2">
-                    <model-viewer 
-                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        alt="Modelo 3D Interactivo"
-                        camera-controls 
-                        auto-rotate 
-                        shadow-intensity="1.5"
-                        exposure="1.2">
-                    </model-viewer>
+                <div class="neon-border bg-slate-900/60 border border-indigo-500/30 rounded-3xl h-[400px] flex items-center justify-center relative overflow-hidden p-2" id="canvas-container">
+                    <p class="text-slate-500 text-sm">Selecciona un dispositivo para cargar el renderizado 3D</p>
                 </div>
 
                 <div class="bg-slate-900/40 p-6 rounded-2xl border border-slate-800 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h2 class="text-2xl font-bold" id="product-title">Cargando producto...</h2>
-                            <p class="text-slate-400 text-sm mt-1">Dispositivo tecnológico controlado desde la nube</p>
-                        </div>
-                        <p class="text-2xl font-black text-indigo-400" id="product-price">$0.00</p>
+                    <div>
+                        <h2 class="text-3xl font-black tracking-tight" id="view-title">Selecciona un producto</h2>
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed" id="view-description">Haz clic en los celulares de la izquierda para extraer sus datos directamente desde el Excel Omnicanal.</p>
                     </div>
                     
-                    <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="grid grid-cols-2 gap-4 pt-2">
                         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">STOCK EN EXCEL</p>
-                            <p class="text-lg font-bold text-slate-200" id="stock-display">--</p>
+                            <p class="text-xs text-slate-500 font-mono">PROCESADOR</p>
+                            <p class="text-sm font-semibold text-slate-300" id="view-cpu">--</p>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">UBICACIÓN</p>
-                            <p class="text-sm font-semibold text-cyan-400">Almacén Central</p>
-                        </div>
-                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="text-xs text-slate-500 font-mono">SINK OMNICANAL</p>
-                            <p class="text-sm font-semibold text-purple-400">Google API</p>
+                            <p class="text-xs text-slate-500 font-mono">CÁMARA CENTRAL</p>
+                            <p class="text-sm font-semibold text-slate-300" id="view-camera">--</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <button onclick="registrarVentaEnNube('Tienda Física')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-indigo-600/20 text-sm">
-                            💻 Procesar en POS (Tienda)
+                        <button onclick="ejecutarVentaOmnicanal('Tienda Física')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-all text-sm shadow-lg shadow-indigo-600/25">
+                            💻 Registrar Venta POS
                         </button>
-                        <button onclick="registrarVentaEnNube('E-Commerce Online')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl border border-slate-700 transition-all text-sm">
-                            🌐 Simular Pedido Web Online
+                        <button onclick="ejecutarVentaOmnicanal('E-Commerce Online')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl border border-slate-700 transition-all text-sm">
+                            🌐 Pedido Web Online
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-fit space-y-6">
-                <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold tracking-wide text-slate-200">Facturación Moon POS</h3>
-                    <p class="text-xs text-slate-500 font-mono mt-1">ID CAJA: #001-SHEETS</p>
+            <div class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-3xl p-6 h-fit space-y-4">
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-slate-200">Factura Simplificada</h3>
+                    <p class="text-[10px] text-slate-500 font-mono mt-0.5">ESTACIÓN: CORE-SHEETS</p>
                 </div>
 
-                <div class="space-y-4 min-h-[150px]" id="cart-items">
-                    <p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">Esperando transacción...</p>
+                <div class="space-y-3 min-h-[120px]" id="pos-checkout-box">
+                    <p class="text-slate-500 text-xs text-center py-10">Ningún artículo en tránsito de cobro.</p>
                 </div>
 
-                <div class="border-t border-slate-800 pt-4 space-y-2 text-sm font-mono">
+                <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs font-mono">
                     <div class="flex justify-between text-slate-400">
-                        <span>Subtotal:</span>
-                        <span id="subtotal-val">$0.00</span>
+                        <span>Neto:</span> <span id="bill-subtotal">$0.00</span>
                     </div>
                     <div class="flex justify-between text-slate-400">
-                        <span>IVA (16%):</span>
-                        <span id="tax-val">$0.00</span>
+                        <span>Impuesto (16%):</span> <span id="bill-tax">$0.00</span>
                     </div>
-                    <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-dashed border-slate-800">
-                        <span>TOTAL A COBRAR:</span>
-                        <span id="total-val" class="text-emerald-400">$0.00</span>
+                    <div class="flex justify-between text-sm font-bold text-emerald-400 pt-2 border-t border-dashed border-slate-800">
+                        <span>TOTAL:</span> <span id="bill-total">$0.00</span>
                     </div>
                 </div>
-
-                <button onclick="confirmarTicket()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-center text-sm tracking-wide">
-                    🖨️ Confirmar e Imprimir Recibo
+                <button onclick="finalizarTicket()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold py-3 rounded-xl transition-all shadow-md shadow-emerald-600/20">
+                    🖨️ Cerrar Venta e Imprimir
                 </button>
             </div>
 
@@ -124,108 +106,145 @@
     </main>
 
     <script>
-        // Tu URL de Google Apps Script de confianza
-        const API_URL = "https://script.google.com/macros/s/AKfycbyDLInQ1Ok2ZJchNJt-Y7bGfXS980Y0nUriT_p5_kPwjHgPyBffInAV2BdY5yFd_jVZ/exec";
+        // REEMPLAZA ESTA URL CON TU ENLACE DE APLICACIÓN WEB DE GOOGLE SCRIPT SI CAMBIA
+        const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxFGpIpmJT7Y3nDiyxrC8iroB8mBSA8mvSaDHUg31gIxwX5lhzmyitbgn2zo5k88kk/exec";
         
-        let productoPrecio = 0;
-        let productoNombre = "";
-        let ventaActiva = false;
-        let canalActual = "";
+        let listaProductosGlobal = [];
+        let productoSeleccionadoObj = null;
+        let transaccionActiva = false;
+        let canalVentaGlobal = "";
 
-        // Al cargar la página, traemos los datos reales del Excel
-        window.addEventListener('load', () => {
-            cargarInventarioDesdeNube();
-        });
+        window.addEventListener('load', obtenerCatalogoDeNube);
 
-        function cargarInventarioDesdeNube() {
-            fetch(API_URL)
-                .then(response => response.json())
+        function obtenerCatalogoDeNube() {
+            fetch(API_ENDPOINT)
+                .then(res => res.json())
                 .then(data => {
                     if(data.status === "success") {
-                        productoPrecio = data.precio;
-                        productoNombre = data.producto;
+                        listaProductosGlobal = data.productos;
+                        renderizarListaLateral();
                         
-                        document.getElementById('product-title').innerText = data.producto;
-                        document.getElementById('product-price').innerText = `$${data.precio.toFixed(2)}`;
-                        document.getElementById('stock-display').innerText = data.stock;
-                        
-                        // Actualizar indicador de conexión arriba
+                        // Si no hay producto seleccionado, auto-selecciona el primero
+                        if(!productoSeleccionadoObj && listaProductosGlobal.length > 0) {
+                            seleccionarCelular(listaProductosGlobal[0].id);
+                        } else if (productoSeleccionadoObj) {
+                            // Si ya había uno seleccionado (por ejemplo tras una venta), actualiza sus datos en pantalla
+                            const actualizado = listaProductosGlobal.find(p => p.id === productoSeleccionadoObj.id);
+                            if(actualizado) seleccionarCelular(actualizado.id);
+                        }
+
+                        // Actualizar estado superior
                         const status = document.getElementById('connection-status');
                         status.className = "bg-slate-800 text-xs px-3 py-1.5 rounded-lg border border-slate-700 font-mono text-emerald-400 flex items-center gap-2";
-                        status.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Sincronizado con Excel`;
+                        status.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Catálogo Sincronizado`;
                     }
-                })
-                .catch(err => {
-                    console.error("Error conectando a la API:", err);
-                    document.getElementById('connection-status').innerText = "❌ Error de conexión con la Nube";
                 });
         }
 
-        function registrarVentaEnNube(canal) {
-            const stockActual = parseInt(document.getElementById('stock-display').innerText);
+        function renderizarListaLateral() {
+            let htmlHTML = "";
+            listaProductosGlobal.forEach(p => {
+                const stockColor = p.stock > 0 ? 'text-emerald-400' : 'text-rose-500';
+                htmlHTML += `
+                    <button onclick="seleccionarCelular('${p.id}')" class="w-full text-left p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-indigo-500/50 transition-all flex flex-col space-y-1 group">
+                        <div class="flex justify-between items-center w-full">
+                            <span class="font-bold text-sm text-slate-200 group-hover:text-indigo-400 transition-colors">${p.producto}</span>
+                            <span class="text-xs font-mono font-bold text-indigo-300">$${p.precio}</span>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-slate-500 font-mono w-full">
+                            <span>ID: ${p.id}</span>
+                            <span class="${stockColor}">Stock: ${p.stock}</span>
+                        </div>
+                    </button>
+                `;
+            });
+            document.getElementById('lista-productos').innerHTML = htmlHTML;
+        }
+
+        function seleccionarCelular(id) {
+            const prod = listaProductosGlobal.find(p => p.id === id);
+            if(!prod) return;
             
-            if (stockActual <= 0) {
-                alert("❌ ¡ALERTA OMNICANAL! Stock agotado en Google Sheets. Venta bloqueada.");
-                return;
-            }
+            productoSeleccionadoObj = prod;
 
-            // Cambiar estado visual para avisar que se está guardando en internet
-            document.getElementById('connection-status').innerText = "⏳ Guardando en Google Sheets...";
-            canalActual = canal;
+            // Actualizar textos e información
+            document.getElementById('view-title').innerText = prod.producto;
+            document.getElementById('view-description').innerText = prod.descripcion;
+            document.getElementById('view-cpu').innerText = prod.procesador;
+            document.getElementById('view-camera').innerText = prod.camara;
 
-            // Enviamos el parámetro "action=vender" a tu Google Script
-            fetch(`${API_URL}?action=vender`)
-                .then(response => response.json())
+            // Inyectar el renderizador 3D con el archivo específico de este celular
+            document.getElementById('canvas-container').innerHTML = `
+                <model-viewer 
+                    src="${prod.modelo3d}" 
+                    alt="Visor 3D Moon Company - ${prod.producto}"
+                    camera-controls 
+                    auto-rotate 
+                    shadow-intensity="1.5"
+                    exposure="1.2">
+                    <div class="absolute bottom-3 left-3 bg-slate-950/80 text-[10px] px-2 py-1 rounded-md border border-slate-800 font-mono text-slate-400 pointer-events-none">
+                        🌐 3D Inmersivo: ${prod.producto}
+                    </div>
+                </model-viewer>
+            `;
+        }
+
+        function ejecutarVentaOmnicanal(canal) {
+            if(!productoSeleccionadoObj) return alert("Selecciona un celular primero.");
+            if(productoSeleccionadoObj.stock <= 0) return alert("❌ Stock agotado en la nube para este modelo.");
+
+            document.getElementById('connection-status').innerText = "⏳ Comunicando transacción a Excel...";
+            canalVentaGlobal = canal;
+
+            // Petición de descuento en la base de datos
+            fetch(`${API_ENDPOINT}?action=vender&id=${productoSeleccionadoObj.id}`)
+                .then(res => res.json())
                 .then(data => {
                     if(data.status === "success") {
-                        // Actualizamos la pantalla con lo que nos devolvió el Excel real
-                        document.getElementById('stock-display').innerText = data.stock;
+                        transaccionActiva = true;
                         
-                        // Mostramos el artículo en la caja del POS
-                        ventaActiva = true;
-                        document.getElementById('empty-cart-msg').classList.add('hidden');
-                        document.getElementById('cart-items').innerHTML = `
-                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 relative">
-                                <span class="absolute top-2 right-2 text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
-                                    ${canalActual}
+                        // Pintar en el módulo de facturación lateral
+                        document.getElementById('pos-checkout-box').innerHTML = `
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1 relative">
+                                <span class="absolute top-1.5 right-1.5 text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-400/20">
+                                    ${canalVentaGlobal}
                                 </span>
-                                <p class="font-bold text-sm text-slate-200">${productoNombre}</p>
-                                <div class="flex justify-between items-center mt-3 text-xs">
-                                    <p class="text-slate-400">Cant: <span class="text-white font-bold">1</span></p>
-                                    <p class="text-indigo-400 font-bold">$${productoPrecio.toFixed(2)}</p>
+                                <p class="font-bold text-xs text-slate-200">${productoSeleccionadoObj.producto}</p>
+                                <div class="flex justify-between items-center text-[11px] pt-1">
+                                    <p class="text-slate-400">Cant: 1</p>
+                                    <p class="text-indigo-400 font-bold">$${productoSeleccionadoObj.precio.toFixed(2)}</p>
                                 </div>
                             </div>
                         `;
 
-                        // Calcular cuentas financieras
-                        let subtotal = productoPrecio;
+                        // Cuentas financieras
+                        let subtotal = productoSeleccionadoObj.precio;
                         let iva = subtotal * 0.16;
                         let total = subtotal + iva;
 
-                        document.getElementById('subtotal-val').innerText = `$${subtotal.toFixed(2)}`;
-                        document.getElementById('tax-val').innerText = `$${iva.toFixed(2)}`;
-                        document.getElementById('total-val').innerText = `$${total.toFixed(2)}`;
-                        
-                        // Restaurar texto de éxito arriba
-                        cargarInventarioDesdeNube();
+                        document.getElementById('bill-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+                        document.getElementById('bill-tax').innerText = `$${iva.toFixed(2)}`;
+                        document.getElementById('bill-total').innerText = `$${total.toFixed(2)}`;
+
+                        // Refrescar el catálogo entero para jalar los nuevos números de stock de todo el Excel
+                        obtenerCatalogoDeNube();
                     } else {
-                        alert("❌ Error: " + data.message);
-                        cargarInventarioDesdeNube();
+                        alert("Error: " + data.message);
+                        obtenerCatalogoDeNube();
                     }
                 });
         }
 
-        function confirmarTicket() {
-            if (ventaActiva) {
-                alert(`🎉 Transacción Procesada con Éxito.\n\nCanal: ${canalActual}\n\nLos cambios ya están asentados de forma permanente en tu Google Sheets.`);
-                // Limpiar terminal
-                ventaActiva = false;
-                document.getElementById('cart-items').innerHTML = `<p class="text-slate-500 text-sm text-center py-12" id="empty-cart-msg">Esperando transacción...</p>`;
-                document.getElementById('subtotal-val').innerText = "$0.00";
-                document.getElementById('tax-val').innerText = "$0.00";
-                document.getElementById('total-val').innerText = "$0.00";
+        function finalizarTicket() {
+            if(transaccionActiva) {
+                alert(`🎉 Recibo Emitido con Éxito.\n\nDispositivo despachado vía: ${canalVentaGlobal}.\nLos balances de inventario están consolidados en tu Google Sheet.`);
+                transaccionActiva = false;
+                document.getElementById('pos-checkout-box').innerHTML = `<p class="text-slate-500 text-xs text-center py-10">Ningún artículo en tránsito de cobro.</p>`;
+                document.getElementById('bill-subtotal').innerText = "$0.00";
+                document.getElementById('bill-tax').innerText = "$0.00";
+                document.getElementById('bill-total').innerText = "$0.00";
             } else {
-                alert("Primero haz clic en un botón de venta para descontar del inventario.");
+                alert("La caja está vacía.");
             }
         }
     </script>
